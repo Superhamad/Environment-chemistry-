@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>محلل تلوث المياه | كيمياء البيئة</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --deep: #020c18;
+    --ocean: #0a2540;
+    --teal: #00b4d8;
+    --cyan: #48cae4;
+    --lime: #90e0ef;
+    --acid: #aaff00;
+    --danger: #ff4444;
+    --warn: #ffaa00;
+    --safe: #00ff88;
+    --glass: rgba(0,180,216,0.08);
+    --border: rgba(0,180,216,0.2);
+  }
+
+- { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+background: var(–deep);
+color: #e0f7ff;
+font-family: ‘Cairo’, sans-serif;
+min-height: 100vh;
+overflow-x: hidden;
+position: relative;
+}
+
+/* Animated background */
+body::before {
+content:’’;
+position:fixed;
+inset:0;
+background:
+radial-gradient(ellipse 80% 60% at 20% 10%, rgba(0,180,216,0.12) 0%, transparent 60%),
+radial-gradient(ellipse 60% 80% at 80% 90%, rgba(0,80,120,0.2) 0%, transparent 60%),
+radial-gradient(ellipse 40% 40% at 60% 40%, rgba(0,255,136,0.04) 0%, transparent 50%);
+pointer-events:none;
+z-index:0;
+}
+
+/* Bubbles */
+.bubble {
+position:fixed;
+border-radius:50%;
+background: radial-gradient(circle at 30% 30%, rgba(0,180,216,0.15), rgba(0,180,216,0.03));
+border: 1px solid rgba(0,180,216,0.1);
+animation: rise linear infinite;
+pointer-events:none;
+z-index:0;
+}
+@keyframes rise {
+0%   { transform: translateY(110vh) scale(0.8); opacity:0; }
+10%  { opacity:0.6; }
+90%  { opacity:0.3; }
+100% { transform: translateY(-10vh) scale(1.1); opacity:0; }
+}
+
+.container { position:relative; z-index:1; max-width:1000px; margin:0 auto; padding:30px 20px; }
+
+/* Header */
+header {
+text-align:center;
+padding:60px 0 40px;
+position:relative;
+}
+.lab-icon {
+font-size:72px;
+display:block;
+margin-bottom:16px;
+animation: float 3s ease-in-out infinite;
+filter: drop-shadow(0 0 20px rgba(0,180,216,0.5));
+}
+@keyframes float {
+0%,100% { transform: translateY(0px); }
+50%      { transform: translateY(-10px); }
+}
+h1 {
+font-family:‘Tajawal’,sans-serif;
+font-size:clamp(28px,5vw,52px);
+font-weight:800;
+background: linear-gradient(135deg, #00b4d8, #aaff00, #48cae4);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+background-clip:text;
+line-height:1.2;
+margin-bottom:12px;
+}
+.subtitle {
+font-size:16px;
+color:var(–cyan);
+opacity:0.8;
+letter-spacing:1px;
+}
+.badge {
+display:inline-block;
+margin-top:16px;
+padding:6px 18px;
+border:1px solid var(–teal);
+border-radius:20px;
+font-size:13px;
+color:var(–teal);
+background:rgba(0,180,216,0.07);
+}
+
+/* Section cards */
+.card {
+background: var(–glass);
+border: 1px solid var(–border);
+border-radius:20px;
+padding:28px;
+margin-bottom:24px;
+backdrop-filter:blur(8px);
+transition: border-color 0.3s, transform 0.3s;
+position:relative;
+overflow:hidden;
+}
+.card::before {
+content:’’;
+position:absolute;
+top:0; right:0;
+width:120px; height:120px;
+background: radial-gradient(circle, rgba(0,180,216,0.08), transparent);
+border-radius:50%;
+transform:translate(30px,-30px);
+}
+.card:hover { border-color: var(–teal); transform: translateY(-2px); }
+
+.card-title {
+font-size:20px;
+font-weight:700;
+color:var(–teal);
+margin-bottom:18px;
+display:flex;
+align-items:center;
+gap:10px;
+}
+.card-title span { font-size:24px; }
+
+/* Pollutant Analyzer */
+.pollutants-grid {
+display:grid;
+grid-template-columns: repeat(auto-fill, minmax(180px,1fr));
+gap:14px;
+margin-bottom:24px;
+}
+.pollutant-btn {
+background: rgba(0,20,40,0.6);
+border: 1px solid rgba(0,180,216,0.25);
+border-radius:14px;
+padding:16px 12px;
+cursor:pointer;
+text-align:center;
+transition: all 0.25s;
+color: #cce;
+font-family:‘Cairo’,sans-serif;
+font-size:14px;
+position:relative;
+overflow:hidden;
+}
+.pollutant-btn:hover, .pollutant-btn.active {
+border-color: var(–teal);
+background: rgba(0,180,216,0.12);
+color: #fff;
+box-shadow: 0 0 20px rgba(0,180,216,0.15);
+}
+.pollutant-btn .emoji { font-size:30px; display:block; margin-bottom:6px; }
+.pollutant-btn .name { font-weight:600; display:block; }
+.pollutant-btn .formula { font-size:11px; color:var(–cyan); opacity:0.8; font-family:monospace; }
+
+/* Info panel */
+.info-panel {
+background: rgba(0,10,25,0.6);
+border: 1px solid rgba(0,180,216,0.2);
+border-radius:16px;
+padding:24px;
+min-height:160px;
+transition: all 0.4s;
+position:relative;
+}
+.info-panel h3 {
+font-size:18px;
+color:var(–acid);
+margin-bottom:12px;
+font-weight:700;
+}
+.info-panel p { line-height:1.9; color:#b0cce0; font-size:14.5px; }
+
+.danger-bar {
+display:flex;
+align-items:center;
+gap:12px;
+margin-top:16px;
+flex-wrap:wrap;
+}
+.danger-label { font-size:13px; color:#8ab; white-space:nowrap; }
+.bar-track {
+flex:1; min-width:120px;
+height:10px;
+background:rgba(255,255,255,0.07);
+border-radius:99px;
+overflow:hidden;
+}
+.bar-fill {
+height:100%;
+border-radius:99px;
+transition: width 0.8s cubic-bezier(.4,0,.2,1), background 0.4s;
+}
+.source-tags { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+.tag {
+padding:4px 12px;
+border-radius:20px;
+font-size:12px;
+border: 1px solid;
+}
+
+/* pH Simulator */
+.ph-simulator { padding:10px 0; }
+.ph-scale {
+height:36px;
+border-radius:18px;
+background: linear-gradient(to left,
+#6a0dad, #3f00ff, #0070ff, #00aaff,
+#00cc88, #aaff00, #ffdd00, #ff8800, #ff2200);
+position:relative;
+margin:20px 0 10px;
+box-shadow: 0 0 30px rgba(0,180,216,0.15);
+}
+.ph-marker {
+position:absolute;
+top:50%;
+transform: translate(-50%,-50%);
+width:28px; height:28px;
+border-radius:50%;
+background:#fff;
+border:3px solid #000;
+transition: left 0.5s cubic-bezier(.4,0,.2,1);
+box-shadow: 0 0 12px rgba(255,255,255,0.7);
+cursor:grab;
+}
+.ph-labels {
+display:flex;
+justify-content:space-between;
+font-size:11px;
+color:#7ab;
+margin-bottom:20px;
+}
+input[type=range] {
+width:100%;
+accent-color: var(–teal);
+cursor:pointer;
+height:6px;
+margin-bottom:10px;
+}
+.ph-value-display {
+text-align:center;
+margin:16px 0;
+}
+.ph-number {
+font-family:‘Tajawal’,sans-serif;
+font-size:56px;
+font-weight:800;
+transition: color 0.4s;
+display:block;
+line-height:1;
+}
+.ph-status {
+font-size:18px;
+font-weight:600;
+margin-top:8px;
+transition: color 0.4s;
+}
+.ph-examples {
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
+gap:10px;
+margin-top:20px;
+}
+.ph-example-btn {
+background:rgba(255,255,255,0.04);
+border:1px solid rgba(255,255,255,0.1);
+border-radius:10px;
+padding:10px;
+text-align:center;
+cursor:pointer;
+font-family:‘Cairo’,sans-serif;
+color:#cce;
+font-size:13px;
+transition:all 0.2s;
+}
+.ph-example-btn:hover {
+background:rgba(0,180,216,0.1);
+border-color:var(–teal);
+color:#fff;
+}
+.ph-example-btn .e-emoji { font-size:22px; display:block; margin-bottom:4px; }
+.ph-example-btn .e-ph { font-size:11px; color:var(–cyan); }
+
+/* Reactions Section */
+.reaction-list { display:flex; flex-direction:column; gap:14px; }
+.reaction-item {
+background:rgba(0,10,25,0.5);
+border:1px solid rgba(0,180,216,0.15);
+border-radius:14px;
+padding:18px 20px;
+cursor:pointer;
+transition:all 0.3s;
+}
+.reaction-item:hover { border-color:var(–teal); background:rgba(0,180,216,0.07); }
+.reaction-header {
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:0;
+}
+.reaction-name { font-size:15px; font-weight:700; color:#d0eeff; }
+.reaction-toggle { font-size:20px; color:var(–teal); transition:transform 0.3s; }
+.reaction-body {
+overflow:hidden;
+max-height:0;
+transition:max-height 0.4s ease, margin-top 0.3s;
+}
+.reaction-body.open { max-height:300px; margin-top:14px; }
+.reaction-eq {
+font-family:monospace;
+font-size:15px;
+color:var(–acid);
+background:rgba(0,255,0,0.05);
+border:1px solid rgba(170,255,0,0.2);
+border-radius:10px;
+padding:10px 14px;
+margin-bottom:10px;
+direction:ltr;
+text-align:center;
+}
+.reaction-desc { font-size:13.5px; color:#8ab; line-height:1.8; }
+
+/* Quiz */
+.quiz-box {
+background:rgba(0,10,25,0.5);
+border:1px solid rgba(0,180,216,0.2);
+border-radius:16px;
+padding:24px;
+}
+.quiz-q {
+font-size:17px;
+font-weight:600;
+color:#d0eeff;
+margin-bottom:18px;
+line-height:1.7;
+}
+.quiz-options { display:flex; flex-direction:column; gap:10px; }
+.quiz-opt {
+background:rgba(255,255,255,0.04);
+border:1px solid rgba(255,255,255,0.1);
+border-radius:12px;
+padding:12px 18px;
+cursor:pointer;
+font-family:‘Cairo’,sans-serif;
+font-size:14.5px;
+color:#cce;
+text-align:right;
+transition:all 0.2s;
+}
+.quiz-opt:hover { background:rgba(0,180,216,0.1); border-color:var(–teal); }
+.quiz-opt.correct { background:rgba(0,255,136,0.12); border-color:var(–safe); color:var(–safe); }
+.quiz-opt.wrong { background:rgba(255,68,68,0.12); border-color:var(–danger); color:var(–danger); }
+.quiz-feedback {
+margin-top:16px;
+padding:12px 16px;
+border-radius:10px;
+font-size:14px;
+line-height:1.7;
+display:none;
+}
+.quiz-feedback.show { display:block; }
+.quiz-feedback.ok { background:rgba(0,255,136,0.08); border:1px solid rgba(0,255,136,0.2); color:var(–safe); }
+.quiz-feedback.bad { background:rgba(255,68,68,0.08); border:1px solid rgba(255,68,68,0.2); color:#ff8888; }
+.quiz-next-btn {
+margin-top:16px;
+padding:10px 28px;
+background:linear-gradient(135deg,var(–teal),#005f7a);
+border:none;
+border-radius:30px;
+color:#fff;
+font-family:‘Cairo’,sans-serif;
+font-size:15px;
+font-weight:700;
+cursor:pointer;
+display:none;
+transition:opacity 0.2s;
+}
+.quiz-next-btn.show { display:inline-block; }
+.quiz-next-btn:hover { opacity:0.85; }
+.score-display {
+text-align:center;
+font-size:16px;
+color:var(–cyan);
+margin-top:14px;
+}
+.score-display b { color:var(–acid); font-size:22px; }
+
+/* Footer */
+footer {
+text-align:center;
+padding:40px 0 20px;
+color:#4a7a90;
+font-size:13px;
+}
+
+/* Animations */
+.card { animation: fadeUp 0.6s ease both; }
+.card:nth-child(2) { animation-delay:0.1s; }
+.card:nth-child(3) { animation-delay:0.2s; }
+.card:nth-child(4) { animation-delay:0.3s; }
+.card:nth-child(5) { animation-delay:0.4s; }
+@keyframes fadeUp {
+from { opacity:0; transform:translateY(30px); }
+to   { opacity:1; transform:translateY(0); }
+}
+
+@media(max-width:600px) {
+.pollutants-grid { grid-template-columns:repeat(2,1fr); }
+h1 { font-size:28px; }
+.ph-examples { grid-template-columns:repeat(3,1fr); }
+}
+</style>
+
+</head>
+<body>
+
+<!-- Bubbles -->
+
+<script>
+  for(let i=0;i<18;i++){
+    const b=document.createElement('div');
+    b.className='bubble';
+    const s=Math.random()*60+20;
+    b.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${Math.random()*12+8}s;animation-delay:${Math.random()*10}s`;
+    document.body.appendChild(b);
+  }
+</script>
+
+<div class="container">
+
+  <!-- Header -->
+
+  <header>
+    <span class="lab-icon">🧪</span>
+    <h1>محلل تلوث المياه البيئي</h1>
+    <p class="subtitle">مشروع تفاعلي – كيمياء البيئة</p>
+    <span class="badge">Environmental Chemistry Interactive Lab</span>
+  </header>
+
+  <!-- 1. Pollutant Analyzer -->
+
+  <div class="card">
+    <div class="card-title"><span>☠️</span> محلل الملوثات الكيميائية</div>
+    <div class="pollutants-grid" id="pollGrid"></div>
+    <div class="info-panel" id="infoPanel">
+      <p style="color:#4a7a90;text-align:center;padding-top:30px">← اختر ملوثًا لعرض تفاصيله الكيميائية</p>
+    </div>
+  </div>
+
+  <!-- 2. pH Simulator -->
+
+  <div class="card">
+    <div class="card-title"><span>⚗️</span> محاكي درجة الحموضة pH</div>
+    <div class="ph-simulator">
+      <div class="ph-scale">
+        <div class="ph-marker" id="phMarker"></div>
+      </div>
+      <div class="ph-labels">
+        <span>0<br>حمضي جداً</span><span>2</span><span>4</span><span>6</span>
+        <span>7<br>محايد</span>
+        <span>8</span><span>10</span><span>12</span><span>14<br>قلوي جداً</span>
+      </div>
+      <input type="range" id="phSlider" min="0" max="14" step="0.1" value="7">
+      <div class="ph-value-display">
+        <span class="ph-number" id="phNum">7.0</span>
+        <div class="ph-status" id="phStatus">⚖️ محايد – مثالي للحياة</div>
+        <div class="danger-bar" style="margin-top:12px;justify-content:center;gap:16px">
+          <div id="phLife" style="font-size:13px;color:#7ab"></div>
+        </div>
+      </div>
+      <div class="ph-examples">
+        <div class="ph-example-btn" onclick="setPH(1.5)"><span class="e-emoji">🔋</span>حامض البطارية<span class="e-ph">pH 1.5</span></div>
+        <div class="ph-example-btn" onclick="setPH(2.5)"><span class="e-emoji">🍋</span>ليمون<span class="e-ph">pH 2.5</span></div>
+        <div class="ph-example-btn" onclick="setPH(4)"><span class="e-emoji">🌧️</span>مطر حمضي<span class="e-ph">pH 4</span></div>
+        <div class="ph-example-btn" onclick="setPH(7)"><span class="e-emoji">💧</span>ماء نقي<span class="e-ph">pH 7</span></div>
+        <div class="ph-example-btn" onclick="setPH(8.2)"><span class="e-emoji">🌊</span>ماء البحر<span class="e-ph">pH 8.2</span></div>
+        <div class="ph-example-btn" onclick="setPH(10)"><span class="e-emoji">🧼</span>صابون<span class="e-ph">pH 10</span></div>
+        <div class="ph-example-btn" onclick="setPH(13)"><span class="e-emoji">🪣</span>الجير<span class="e-ph">pH 13</span></div>
+        <div class="ph-example-btn" onclick="setPH(5.5)"><span class="e-emoji">☕</span>قهوة<span class="e-ph">pH 5.5</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Chemical Reactions -->
+
+  <div class="card">
+    <div class="card-title"><span>⚡</span> تفاعلات كيميائية بيئية مهمة</div>
+    <div class="reaction-list" id="reactionList"></div>
+  </div>
+
+  <!-- 4. Quiz -->
+
+  <div class="card">
+    <div class="card-title"><span>🎯</span> اختبر معلوماتك</div>
+    <div class="quiz-box">
+      <div class="quiz-q" id="quizQ"></div>
+      <div class="quiz-options" id="quizOpts"></div>
+      <div class="quiz-feedback" id="quizFb"></div>
+      <button class="quiz-next-btn" id="quizNext" onclick="nextQ()">السؤال التالي ←</button>
+      <div class="score-display" id="scoreDisp"></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  🧬 مشروع كيمياء البيئة – Environmental Chemistry Project<br>
+  تفاعلي ✦ تعليمي ✦ علمي
+</footer>
+
+<script>
+// ========== DATA ==========
+const pollutants = [
+  { emoji:'🏭', name:'ثاني أكسيد الكبريت', formula:'SO₂',
+    danger:85, color:'#ff8800',
+    desc:'ينبعث من حرق الوقود الأحفوري ومحطات الطاقة. يتفاعل مع الماء في الجو مكوّنًا حامض الكبريتيك H₂SO₄ المسبب للأمطار الحمضية التي تدمر الغابات وتآكل المباني.',
+    sources:['محطات الكهرباء','صهر المعادن','السيارات'],
+    tagColor:'#ff8800'
+  },
+  { emoji:'🚗', name:'أول أكسيد الكربون', formula:'CO',
+    danger:90, color:'#ff4444',
+    desc:'غاز سام عديم اللون والرائحة ينتج من الاحتراق الناقص. يرتبط بالهيموغلوبين في الدم بشكل أقوى من الأكسجين مما يسبب الاختناق والموت عند التركيزات العالية.',
+    sources:['عادم السيارات','الحرائق','المولدات'],
+    tagColor:'#ff4444'
+  },
+  { emoji:'🌿', name:'النترات والفوسفات', formula:'NO₃⁻/PO₄³⁻',
+    danger:70, color:'#aaff00',
+    desc:'تأتي من الأسمدة الزراعية. تتسرب إلى المسطحات المائية مسببة ظاهرة الإثراء الغذائي (Eutrophication) التي تستنزف الأكسجين المذاب وتقتل الأسماك والكائنات المائية.',
+    sources:['الأسمدة الزراعية','مياه الصرف','الرعي'],
+    tagColor:'#aaff00'
+  },
+  { emoji:'🪨', name:'الرصاص والمعادن الثقيلة', formula:'Pb, Hg, Cd',
+    danger:95, color:'#aa44ff',
+    desc:'ملوثات خطيرة لا تتحلل بيولوجياً. تتراكم في سلاسل الغذاء (تضخم حيوي) وتؤثر على الجهاز العصبي والكلى. الرصاص يسبب تلف الدماغ خاصة عند الأطفال.',
+    sources:['المناجم','الدهانات القديمة','البطاريات'],
+    tagColor:'#aa44ff'
+  },
+  { emoji:'🛢️', name:'الهيدروكربونات النفطية', formula:'CₙHₘ',
+    danger:80, color:'#ff6688',
+    desc:'تسربات النفط تغطي سطح الماء بطبقة تمنع دخول الأكسجين وتقتل الطيور البحرية والأسماك. المركبات متعددة الحلقات العطرية (PAHs) مسرطنة وتستمر في البيئة لسنوات.',
+    sources:['ناقلات النفط','الصناعة','محطات الوقود'],
+    tagColor:'#ff6688'
+  },
+  { emoji:'💊', name:'الملوثات الدوائية', formula:'PhACs',
+    danger:60, color:'#00ccff',
+    desc:'بقايا الأدوية والمضادات الحيوية التي لا تتحلل في محطات معالجة المياه. تسبب مقاومة الميكروبات للمضادات الحيوية وتؤثر على الهرمونات في الكائنات المائية.',
+    sources:['الصرف الصحي','المستشفيات','المزارع'],
+    tagColor:'#00ccff'
+  },
+];
+
+const reactions = [
+  {
+    name:'تكوّن المطر الحمضي',
+    eq:'SO₂ + H₂O → H₂SO₃   |   2NO₂ + H₂O → HNO₃ + HNO₂',
+    desc:'ثاني أكسيد الكبريت وأكاسيد النيتروجين تتحد مع بخار الماء في الغلاف الجوي مكونةً أحماضاً تسقط مع الأمطار. هذه الأمطار الحمضية تضر بالتربة والنباتات والمياه.'
+  },
+  {
+    name:'تفاعل الأوزون مع CFC',
+    eq:'CF₂Cl₂ → CF₂Cl• + Cl•   |   Cl• + O₃ → ClO• + O₂',
+    desc:'مركبات الكلوروفلوروكربون (CFCs) تحت الأشعة فوق البنفسجية تُطلق ذرات كلور حرة تهاجم طبقة الأوزون الواقية في سلسلة تفاعلات تدمر آلاف جزيئات الأوزون.'
+  },
+  {
+    name:'الإثراء الغذائي (Eutrophication)',
+    eq:'16NO₃⁻ + HPO₄²⁻ + 92H₂O + 106CO₂ → [C₁₀₆H₂₆₃O₁₁₀N₁₆P] + 138O₂',
+    desc:'تراكم النترات والفوسفات يحفز نمو الطحالب بشكل هائل. عند تحلل هذه الطحالب، تستهلك البكتيريا الأكسجين المذاب مسببة مناطق ميتة في المياه.'
+  },
+  {
+    name:'تحلل الكلور في مياه الشرب',
+    eq:'Cl₂ + H₂O ⇌ HOCl + HCl   |   HOCl ⇌ H⁺ + OCl⁻',
+    desc:'إضافة الكلور لتعقيم مياه الشرب يُنتج حامض هيبوكلورو الفعّال. لكن بتفاعله مع المواد العضوية الطبيعية يكوّن ثلاثيات الهالوميثان (THMs) المسرطنة.'
+  },
+  {
+    name:'تكوين الضباب الدخاني الضوئي',
+    eq:'NO₂ + hν → NO + O   |   O + O₂ → O₃   |   O₃ + VOC → Smog',
+    desc:'في المدن الكبرى، أشعة الشمس تُفكك ثاني أكسيد النيتروجين مُنتجةً أوزون أرضياً ومواد أكسدة تهيج الجهاز التنفسي وتسبب ضبابًا كيميائيًا ضاراً.'
+  },
+];
+
+const quizData = [
+  { q:'ما هو الغاز الرئيسي المسبب للأمطار الحمضية؟', opts:['ثاني أكسيد الكبريت SO₂','ثاني أكسيد الكربون CO₂','الأوزون O₃','الميثان CH₄'], ans:0, exp:'SO₂ يتحد مع الماء في الجو مكوّنًا حامض الكبريتيك H₂SO₄ المسبب الرئيسي للأمطار الحمضية.' },
+  { q:'ما هي ظاهرة الإثراء الغذائي (Eutrophication)؟', opts:['تلوث الهواء بالدخان','تراكم المغذيات في المياه وانخفاض الأكسجين','ارتفاع درجة حرارة البحار','تراكم البلاستيك في المحيطات'], ans:1, exp:'الإثراء الغذائي يحدث بسبب زيادة النترات والفوسفات مما يسبب انتشار الطحالب واستنزاف الأكسجين.' },
+  { q:'أي درجة pH تمثل المحلول المحايد؟', opts:['0','14','7','5'], ans:2, exp:'المحلول المحايد له pH = 7، وهو توازن بين تركيز أيونات H⁺ و OH⁻.' },
+  { q:'لماذا تُعتبر المعادن الثقيلة خطيرة بيولوجيًا؟', opts:['لأنها قابلة للاشتعال','لأنها تتراكم في سلسلة الغذاء ولا تتحلل','لأنها تسبب الأمطار الحمضية','لأنها تُفسد طعم الماء'], ans:1, exp:'المعادن الثقيلة كالرصاص والزئبق تتضخم بيولوجياً في سلسلة الغذاء وتتراكم في أنسجة الكائنات مسببة أمراضاً خطيرة.' },
+  { q:'ما هو الدور الرئيسي لطبقة الأوزون؟', opts:['توليد المطر','امتصاص الأشعة فوق البنفسجية الضارة','تنقية الهواء من الغبار','تبريد الغلاف الجوي'], ans:1, exp:'الأوزون في الستراتوسفير يمتص 97-99% من الأشعة فوق البنفسجية الضارة التي تسبب سرطان الجلد والأضرار البيئية.' },
+];
+
+// ========== POLLUTANTS ==========
+const grid = document.getElementById('pollGrid');
+const panel = document.getElementById('infoPanel');
+
+pollutants.forEach((p,i)=>{
+  const btn = document.createElement('button');
+  btn.className='pollutant-btn';
+  btn.innerHTML=`<span class="emoji">${p.emoji}</span><span class="name">${p.name}</span><span class="formula">${p.formula}</span>`;
+  btn.onclick=()=>{
+    document.querySelectorAll('.pollutant-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    showPollutant(p);
+  };
+  grid.appendChild(btn);
+});
+
+function showPollutant(p){
+  const pct = p.danger;
+  const col = pct>=90?'#ff4444': pct>=70?'#ff8800':'#aaff00';
+  const tags = p.sources.map(s=>`<span class="tag" style="border-color:${p.tagColor};color:${p.tagColor};background:${p.tagColor}11">${s}</span>`).join('');
+  panel.innerHTML=`
+    <h3>${p.emoji} ${p.name} <span style="font-size:13px;font-family:monospace;color:var(--cyan)">${p.formula}</span></h3>
+    <p>${p.desc}</p>
+    <div class="danger-bar">
+      <span class="danger-label">مستوى الخطورة:</span>
+      <div class="bar-track"><div class="bar-fill" style="width:0%;background:${col}" id="dangerFill"></div></div>
+      <span style="font-size:14px;font-weight:700;color:${col}">${pct}%</span>
+    </div>
+    <div class="source-tags"><span style="font-size:12px;color:#7ab">المصادر:</span>${tags}</div>
+  `;
+  setTimeout(()=>{ const f=document.getElementById('dangerFill'); if(f)f.style.width=pct+'%'; },50);
+}
+
+// ========== pH ==========
+const slider = document.getElementById('phSlider');
+const marker = document.getElementById('phMarker');
+const phNum  = document.getElementById('phNum');
+const phStat = document.getElementById('phStatus');
+const phLife = document.getElementById('phLife');
+
+function setPH(val){
+  slider.value=val;
+  updatePH();
+}
+
+function updatePH(){
+  const v=parseFloat(slider.value);
+  phNum.textContent=v.toFixed(1);
+  marker.style.left=(v/14*100)+'%';
+
+  let col,status,life;
+  if(v<3){       col='#ff2200'; status='⚠️ حمضي شديد الخطورة – مميت للكائنات'; life='☠️ لا تعيش فيه كائنات'; }
+  else if(v<5){  col='#ff6600'; status='🌧️ حمضي – مطر حمضي ضار';       life='⚠️ يضر بمعظم الأسماك'; }
+  else if(v<6){  col='#ffaa00'; status='🍋 حمضي خفيف';                    life='⚡ يؤثر على بعض الكائنات'; }
+  else if(v<7.5){col='#00ff88'; status='✅ مثالي – آمن للحياة';           life='🐟 مثالي لمعظم الكائنات المائية'; }
+  else if(v<9){  col='#00ccff'; status='🌊 قلوي خفيف – مقبول';           life='✔️ مقبول لكثير من الكائنات'; }
+  else if(v<11){ col='#8888ff'; status='🧼 قلوي – مؤذٍ للكائنات';        life='⚠️ يضر بمعظم الأحياء'; }
+  else{          col='#ff44ff'; status='☣️ قلوي شديد – مدمر للخلايا';    life='☠️ مميت لجميع الكائنات'; }
+
+  phNum.style.color=col;
+  phStat.style.color=col;
+  phStat.textContent=status;
+  phLife.textContent=life;
+}
+slider.addEventListener('input',updatePH);
+updatePH();
+
+// ========== REACTIONS ==========
+const rList = document.getElementById('reactionList');
+reactions.forEach(r=>{
+  const item=document.createElement('div');
+  item.className='reaction-item';
+  item.innerHTML=`
+    <div class="reaction-header" onclick="toggleR(this)">
+      <span class="reaction-name">⚗️ ${r.name}</span>
+      <span class="reaction-toggle">＋</span>
+    </div>
+    <div class="reaction-body">
+      <div class="reaction-eq">${r.eq}</div>
+      <p class="reaction-desc">${r.desc}</p>
+    </div>
+  `;
+  rList.appendChild(item);
+});
+function toggleR(header){
+  const body=header.nextElementSibling;
+  const tog=header.querySelector('.reaction-toggle');
+  const open=body.classList.toggle('open');
+  tog.textContent=open?'－':'＋';
+  tog.style.transform=open?'rotate(180deg)':'';
+}
+
+// ========== QUIZ ==========
+let qIdx=0, score=0;
+const qEl=document.getElementById('quizQ');
+const oEl=document.getElementById('quizOpts');
+const fbEl=document.getElementById('quizFb');
+const nxtBtn=document.getElementById('quizNext');
+const scoreEl=document.getElementById('scoreDisp');
+
+function loadQ(){
+  if(qIdx>=quizData.length){ showFinal(); return; }
+  const q=quizData[qIdx];
+  qEl.textContent=`السؤال ${qIdx+1} / ${quizData.length}: ${q.q}`;
+  oEl.innerHTML='';
+  fbEl.className='quiz-feedback';
+  fbEl.textContent='';
+  nxtBtn.classList.remove('show');
+  q.opts.forEach((o,i)=>{
+    const btn=document.createElement('button');
+    btn.className='quiz-opt';
+    btn.textContent=o;
+    btn.onclick=()=>checkAns(i,q,btn);
+    oEl.appendChild(btn);
+  });
+  scoreEl.textContent=`النقاط: ${score} / ${qIdx}`;
+}
+
+function checkAns(i,q,btn){
+  document.querySelectorAll('.quiz-opt').forEach(b=>b.onclick=null);
+  if(i===q.ans){
+    btn.classList.add('correct');
+    fbEl.textContent='✅ إجابة صحيحة! '+q.exp;
+    fbEl.className='quiz-feedback show ok';
+    score++;
+  } else {
+    btn.classList.add('wrong');
+    document.querySelectorAll('.quiz-opt')[q.ans].classList.add('correct');
+    fbEl.textContent='❌ إجابة خاطئة. '+q.exp;
+    fbEl.className='quiz-feedback show bad';
+  }
+  nxtBtn.classList.add('show');
+  scoreEl.textContent=`النقاط: ${score} / ${qIdx+1}`;
+}
+
+function nextQ(){ qIdx++; loadQ(); }
+
+function showFinal(){
+  const pct=Math.round(score/quizData.length*100);
+  const msg=pct>=80?'🏆 ممتاز! أنت خبير كيمياء بيئية':pct>=60?'👍 جيد! راجع بعض النقاط':'📚 تحتاج مزيداً من الدراسة';
+  qEl.textContent='انتهى الاختبار!';
+  oEl.innerHTML='';
+  fbEl.textContent='';
+  fbEl.className='quiz-feedback';
+  nxtBtn.classList.remove('show');
+  scoreEl.innerHTML=`${msg}<br>نتيجتك: <b>${score} / ${quizData.length}</b> (${pct}%)<br><br><button onclick="restartQ()" style="padding:8px 24px;background:var(--teal);border:none;border-radius:20px;color:#fff;font-family:Cairo,sans-serif;font-size:15px;cursor:pointer;margin-top:8px">إعادة الاختبار 🔄</button>`;
+}
+
+function restartQ(){ qIdx=0; score=0; loadQ(); }
+
+loadQ();
+</script>
+
+</body>
+</html>
