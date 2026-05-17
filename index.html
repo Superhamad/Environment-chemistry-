@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>محلل تلوث المياه | كيمياء البيئة</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<title>Water Pollution Analyzer | Environmental Chemistry</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --deep: #020c18;
@@ -26,7 +26,7 @@
 body {
 background: var(--deep);
 color: #e0f7ff;
-font-family: ‘Cairo’, sans-serif;
+font-family: 'Inter', sans-serif;
 min-height: 100vh;
 overflow-x: hidden;
 position: relative;
@@ -34,7 +34,7 @@ position: relative;
 
 /* Animated background */
 body::before {
-content:’’;
+content:'';
 position:fixed;
 inset:0;
 background:
@@ -82,9 +82,9 @@ filter: drop-shadow(0 0 20px rgba(0,180,216,0.5));
 50%      { transform: translateY(-10px); }
 }
 h1 {
-font-family:‘Tajawal’,sans-serif;
+font-family:'Rajdhani',sans-serif;
 font-size:clamp(28px,5vw,52px);
-font-weight:800;
+font-weight:700;
 background: linear-gradient(135deg, #00b4d8, #aaff00, #48cae4);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
@@ -122,7 +122,7 @@ position:relative;
 overflow:hidden;
 }
 .card::before {
-content:’’;
+content:'';
 position:absolute;
 top:0; right:0;
 width:120px; height:120px;
@@ -159,7 +159,7 @@ cursor:pointer;
 text-align:center;
 transition: all 0.25s;
 color: #cce;
-font-family:‘Cairo’,sans-serif;
+font-family:'Inter',sans-serif;
 font-size:14px;
 position:relative;
 overflow:hidden;
@@ -225,9 +225,9 @@ border: 1px solid;
 .ph-scale {
 height:36px;
 border-radius:18px;
-background: linear-gradient(to left,
-#6a0dad, #3f00ff, #0070ff, #00aaff,
-#00cc88, #aaff00, #ffdd00, #ff8800, #ff2200);
+background: linear-gradient(to right,
+#ff2200, #ff8800, #ffdd00, #aaff00,
+#00cc88, #00aaff, #0070ff, #3f00ff, #6a0dad);
 position:relative;
 margin:20px 0 10px;
 box-shadow: 0 0 30px rgba(0,180,216,0.15);
@@ -263,9 +263,9 @@ text-align:center;
 margin:16px 0;
 }
 .ph-number {
-font-family:‘Tajawal’,sans-serif;
+font-family:'Rajdhani',sans-serif;
 font-size:56px;
-font-weight:800;
+font-weight:700;
 transition: color 0.4s;
 display:block;
 line-height:1;
@@ -289,7 +289,7 @@ border-radius:10px;
 padding:10px;
 text-align:center;
 cursor:pointer;
-font-family:‘Cairo’,sans-serif;
+font-family:'Inter',sans-serif;
 color:#cce;
 font-size:13px;
 transition:all 0.2s;
@@ -362,10 +362,10 @@ border:1px solid rgba(255,255,255,0.1);
 border-radius:12px;
 padding:12px 18px;
 cursor:pointer;
-font-family:‘Cairo’,sans-serif;
+font-family:'Inter',sans-serif;
 font-size:14.5px;
 color:#cce;
-text-align:right;
+text-align:left;
 transition:all 0.2s;
 }
 .quiz-opt:hover { background:rgba(0,180,216,0.1); border-color:var(--teal); }
@@ -389,7 +389,7 @@ background:linear-gradient(135deg,var(--teal),#005f7a);
 border:none;
 border-radius:30px;
 color:#fff;
-font-family:‘Cairo’,sans-serif;
+font-family:'Inter',sans-serif;
 font-size:15px;
 font-weight:700;
 cursor:pointer;
@@ -453,51 +453,51 @@ h1 { font-size:28px; }
 
   <header>
     <span class="lab-icon">🧪</span>
-    <h1>محلل تلوث المياه البيئي</h1>
-    <p class="subtitle">مشروع تفاعلي – كيمياء البيئة</p>
+    <h1>Environmental Water Pollution Analyzer</h1>
+    <p class="subtitle">Interactive Project – Environmental Chemistry</p>
     <span class="badge">Environmental Chemistry Interactive Lab</span>
   </header>
 
   <!-- 1. Pollutant Analyzer -->
 
   <div class="card">
-    <div class="card-title"><span>☠️</span> محلل الملوثات الكيميائية</div>
+    <div class="card-title"><span>☠️</span> Chemical Pollutant Analyzer</div>
     <div class="pollutants-grid" id="pollGrid"></div>
     <div class="info-panel" id="infoPanel">
-      <p style="color:#4a7a90;text-align:center;padding-top:30px">← اختر ملوثًا لعرض تفاصيله الكيميائية</p>
+      <p style="color:#4a7a90;text-align:center;padding-top:30px">← Select a pollutant to view its chemical details</p>
     </div>
   </div>
 
   <!-- 2. pH Simulator -->
 
   <div class="card">
-    <div class="card-title"><span>⚗️</span> محاكي درجة الحموضة pH</div>
+    <div class="card-title"><span>⚗️</span> pH Simulator</div>
     <div class="ph-simulator">
       <div class="ph-scale">
         <div class="ph-marker" id="phMarker"></div>
       </div>
       <div class="ph-labels">
-        <span>0<br>حمضي جداً</span><span>2</span><span>4</span><span>6</span>
-        <span>7<br>محايد</span>
-        <span>8</span><span>10</span><span>12</span><span>14<br>قلوي جداً</span>
+        <span>0<br>Highly Acidic</span><span>2</span><span>4</span><span>6</span>
+        <span>7<br>Neutral</span>
+        <span>8</span><span>10</span><span>12</span><span>14<br>Highly Alkaline</span>
       </div>
       <input type="range" id="phSlider" min="0" max="14" step="0.1" value="7">
       <div class="ph-value-display">
         <span class="ph-number" id="phNum">7.0</span>
-        <div class="ph-status" id="phStatus">⚖️ محايد – مثالي للحياة</div>
+        <div class="ph-status" id="phStatus">⚖️ Neutral – Ideal for Life</div>
         <div class="danger-bar" style="margin-top:12px;justify-content:center;gap:16px">
           <div id="phLife" style="font-size:13px;color:#7ab"></div>
         </div>
       </div>
       <div class="ph-examples">
-        <div class="ph-example-btn" onclick="setPH(1.5)"><span class="e-emoji">🔋</span>حامض البطارية<span class="e-ph">pH 1.5</span></div>
-        <div class="ph-example-btn" onclick="setPH(2.5)"><span class="e-emoji">🍋</span>ليمون<span class="e-ph">pH 2.5</span></div>
-        <div class="ph-example-btn" onclick="setPH(4)"><span class="e-emoji">🌧️</span>مطر حمضي<span class="e-ph">pH 4</span></div>
-        <div class="ph-example-btn" onclick="setPH(7)"><span class="e-emoji">💧</span>ماء نقي<span class="e-ph">pH 7</span></div>
-        <div class="ph-example-btn" onclick="setPH(8.2)"><span class="e-emoji">🌊</span>ماء البحر<span class="e-ph">pH 8.2</span></div>
-        <div class="ph-example-btn" onclick="setPH(10)"><span class="e-emoji">🧼</span>صابون<span class="e-ph">pH 10</span></div>
-        <div class="ph-example-btn" onclick="setPH(13)"><span class="e-emoji">🪣</span>الجير<span class="e-ph">pH 13</span></div>
-        <div class="ph-example-btn" onclick="setPH(5.5)"><span class="e-emoji">☕</span>قهوة<span class="e-ph">pH 5.5</span></div>
+        <div class="ph-example-btn" onclick="setPH(1.5)"><span class="e-emoji">🔋</span>Battery Acid<span class="e-ph">pH 1.5</span></div>
+        <div class="ph-example-btn" onclick="setPH(2.5)"><span class="e-emoji">🍋</span>Lemon<span class="e-ph">pH 2.5</span></div>
+        <div class="ph-example-btn" onclick="setPH(4)"><span class="e-emoji">🌧️</span>Acid Rain<span class="e-ph">pH 4</span></div>
+        <div class="ph-example-btn" onclick="setPH(5.5)"><span class="e-emoji">☕</span>Coffee<span class="e-ph">pH 5.5</span></div>
+        <div class="ph-example-btn" onclick="setPH(7)"><span class="e-emoji">💧</span>Pure Water<span class="e-ph">pH 7</span></div>
+        <div class="ph-example-btn" onclick="setPH(8.2)"><span class="e-emoji">🌊</span>Seawater<span class="e-ph">pH 8.2</span></div>
+        <div class="ph-example-btn" onclick="setPH(10)"><span class="e-emoji">🧼</span>Soap<span class="e-ph">pH 10</span></div>
+        <div class="ph-example-btn" onclick="setPH(13)"><span class="e-emoji">🪣</span>Lime<span class="e-ph">pH 13</span></div>
       </div>
     </div>
   </div>
@@ -505,19 +505,19 @@ h1 { font-size:28px; }
   <!-- 3. Chemical Reactions -->
 
   <div class="card">
-    <div class="card-title"><span>⚡</span> تفاعلات كيميائية بيئية مهمة</div>
+    <div class="card-title"><span>⚡</span> Key Environmental Chemical Reactions</div>
     <div class="reaction-list" id="reactionList"></div>
   </div>
 
   <!-- 4. Quiz -->
 
   <div class="card">
-    <div class="card-title"><span>🎯</span> اختبر معلوماتك</div>
+    <div class="card-title"><span>🎯</span> Test Your Knowledge</div>
     <div class="quiz-box">
       <div class="quiz-q" id="quizQ"></div>
       <div class="quiz-options" id="quizOpts"></div>
       <div class="quiz-feedback" id="quizFb"></div>
-      <button class="quiz-next-btn" id="quizNext" onclick="nextQ()">السؤال التالي ←</button>
+      <button class="quiz-next-btn" id="quizNext" onclick="nextQ()">Next Question →</button>
       <div class="score-display" id="scoreDisp"></div>
     </div>
   </div>
@@ -525,85 +525,85 @@ h1 { font-size:28px; }
 </div>
 
 <footer>
-  🧬 مشروع كيمياء البيئة – Environmental Chemistry Project<br>
-  تفاعلي ✦ تعليمي ✦ علمي
+  🧬 Environmental Chemistry Project<br>
+  Interactive ✦ Educational ✦ Scientific
 </footer>
 
 <script>
 // ========== DATA ==========
 const pollutants = [
-  { emoji:'🏭', name:'ثاني أكسيد الكبريت', formula:'SO₂',
-    danger:85, color:'#ff8800',
-    desc:'ينبعث من حرق الوقود الأحفوري ومحطات الطاقة. يتفاعل مع الماء في الجو مكوّنًا حامض الكبريتيك H₂SO₄ المسبب للأمطار الحمضية التي تدمر الغابات وتآكل المباني.',
-    sources:['محطات الكهرباء','صهر المعادن','السيارات'],
-    tagColor:'#ff8800'
-  },
-  { emoji:'🚗', name:'أول أكسيد الكربون', formula:'CO',
-    danger:90, color:'#ff4444',
-    desc:'غاز سام عديم اللون والرائحة ينتج من الاحتراق الناقص. يرتبط بالهيموغلوبين في الدم بشكل أقوى من الأكسجين مما يسبب الاختناق والموت عند التركيزات العالية.',
-    sources:['عادم السيارات','الحرائق','المولدات'],
-    tagColor:'#ff4444'
-  },
-  { emoji:'🌿', name:'النترات والفوسفات', formula:'NO₃⁻/PO₄³⁻',
-    danger:70, color:'#aaff00',
-    desc:'تأتي من الأسمدة الزراعية. تتسرب إلى المسطحات المائية مسببة ظاهرة الإثراء الغذائي (Eutrophication) التي تستنزف الأكسجين المذاب وتقتل الأسماك والكائنات المائية.',
-    sources:['الأسمدة الزراعية','مياه الصرف','الرعي'],
-    tagColor:'#aaff00'
-  },
-  { emoji:'🪨', name:'الرصاص والمعادن الثقيلة', formula:'Pb, Hg, Cd',
+  { emoji:'🪨', name:'Lead & Heavy Metals', formula:'Pb, Hg, Cd',
     danger:95, color:'#aa44ff',
-    desc:'ملوثات خطيرة لا تتحلل بيولوجياً. تتراكم في سلاسل الغذاء (تضخم حيوي) وتؤثر على الجهاز العصبي والكلى. الرصاص يسبب تلف الدماغ خاصة عند الأطفال.',
-    sources:['المناجم','الدهانات القديمة','البطاريات'],
+    desc:'Highly dangerous pollutants that do not biodegrade. They accumulate through food chains (biomagnification) and damage the nervous system and kidneys. Lead causes brain damage, especially in children.',
+    sources:['Mining','Old Paint','Batteries'],
     tagColor:'#aa44ff'
   },
-  { emoji:'🛢️', name:'الهيدروكربونات النفطية', formula:'CₙHₘ',
+  { emoji:'🚗', name:'Carbon Monoxide', formula:'CO',
+    danger:90, color:'#ff4444',
+    desc:'A toxic, colorless, odorless gas produced from incomplete combustion. It binds to hemoglobin in the blood far more strongly than oxygen, causing asphyxiation and death at high concentrations.',
+    sources:['Vehicle Exhaust','Fires','Generators'],
+    tagColor:'#ff4444'
+  },
+  { emoji:'🏭', name:'Sulfur Dioxide', formula:'SO₂',
+    danger:85, color:'#ff8800',
+    desc:'Emitted from burning fossil fuels and power plants. It reacts with atmospheric water to form sulfuric acid (H₂SO₄), the primary cause of acid rain that devastates forests and corrodes buildings.',
+    sources:['Power Plants','Metal Smelting','Vehicles'],
+    tagColor:'#ff8800'
+  },
+  { emoji:'🛢️', name:'Petroleum Hydrocarbons', formula:'CₙHₘ',
     danger:80, color:'#ff6688',
-    desc:'تسربات النفط تغطي سطح الماء بطبقة تمنع دخول الأكسجين وتقتل الطيور البحرية والأسماك. المركبات متعددة الحلقات العطرية (PAHs) مسرطنة وتستمر في البيئة لسنوات.',
-    sources:['ناقلات النفط','الصناعة','محطات الوقود'],
+    desc:'Oil spills form a surface film that blocks oxygen from entering water, killing seabirds and fish. Polycyclic aromatic hydrocarbons (PAHs) are carcinogenic and persist in the environment for years.',
+    sources:['Oil Tankers','Industry','Fuel Stations'],
     tagColor:'#ff6688'
   },
-  { emoji:'💊', name:'الملوثات الدوائية', formula:'PhACs',
+  { emoji:'🌿', name:'Nitrates & Phosphates', formula:'NO₃⁻/PO₄³⁻',
+    danger:70, color:'#aaff00',
+    desc:'Originating from agricultural fertilizers, these compounds leach into water bodies causing eutrophication — a process that depletes dissolved oxygen and kills fish and aquatic organisms.',
+    sources:['Agricultural Fertilizers','Wastewater','Livestock'],
+    tagColor:'#aaff00'
+  },
+  { emoji:'💊', name:'Pharmaceutical Pollutants', formula:'PhACs',
     danger:60, color:'#00ccff',
-    desc:'بقايا الأدوية والمضادات الحيوية التي لا تتحلل في محطات معالجة المياه. تسبب مقاومة الميكروبات للمضادات الحيوية وتؤثر على الهرمونات في الكائنات المائية.',
-    sources:['الصرف الصحي','المستشفيات','المزارع'],
+    desc:'Drug and antibiotic residues that are not removed by water treatment plants. They cause antimicrobial resistance and disrupt hormones in aquatic organisms.',
+    sources:['Sewage','Hospitals','Farms'],
     tagColor:'#00ccff'
   },
 ];
 
 const reactions = [
   {
-    name:'تكوّن المطر الحمضي',
+    name:'Formation of Acid Rain',
     eq:'SO₂ + H₂O → H₂SO₃   |   2NO₂ + H₂O → HNO₃ + HNO₂',
-    desc:'ثاني أكسيد الكبريت وأكاسيد النيتروجين تتحد مع بخار الماء في الغلاف الجوي مكونةً أحماضاً تسقط مع الأمطار. هذه الأمطار الحمضية تضر بالتربة والنباتات والمياه.'
+    desc:'Sulfur dioxide and nitrogen oxides combine with atmospheric water vapor to form acids that fall with rain. These acid rains damage soil, vegetation, and water bodies.'
   },
   {
-    name:'تفاعل الأوزون مع CFC',
+    name:'Ozone Depletion by CFCs',
     eq:'CF₂Cl₂ → CF₂Cl• + Cl•   |   Cl• + O₃ → ClO• + O₂',
-    desc:'مركبات الكلوروفلوروكربون (CFCs) تحت الأشعة فوق البنفسجية تُطلق ذرات كلور حرة تهاجم طبقة الأوزون الواقية في سلسلة تفاعلات تدمر آلاف جزيئات الأوزون.'
+    desc:'Chlorofluorocarbons (CFCs) under ultraviolet radiation release free chlorine radicals that attack the protective ozone layer in a chain reaction destroying thousands of ozone molecules.'
   },
   {
-    name:'الإثراء الغذائي (Eutrophication)',
+    name:'Eutrophication',
     eq:'16NO₃⁻ + HPO₄²⁻ + 92H₂O + 106CO₂ → [C₁₀₆H₂₆₃O₁₁₀N₁₆P] + 138O₂',
-    desc:'تراكم النترات والفوسفات يحفز نمو الطحالب بشكل هائل. عند تحلل هذه الطحالب، تستهلك البكتيريا الأكسجين المذاب مسببة مناطق ميتة في المياه.'
+    desc:'Accumulated nitrates and phosphates trigger massive algal growth. When this algae decomposes, bacteria consume dissolved oxygen, creating dead zones in the water.'
   },
   {
-    name:'تحلل الكلور في مياه الشرب',
+    name:'Chlorine Disinfection of Drinking Water',
     eq:'Cl₂ + H₂O ⇌ HOCl + HCl   |   HOCl ⇌ H⁺ + OCl⁻',
-    desc:'إضافة الكلور لتعقيم مياه الشرب يُنتج حامض هيبوكلورو الفعّال. لكن بتفاعله مع المواد العضوية الطبيعية يكوّن ثلاثيات الهالوميثان (THMs) المسرطنة.'
+    desc:'Adding chlorine to disinfect drinking water produces effective hypochlorous acid. However, its reaction with natural organic matter forms trihalomethanes (THMs), which are carcinogenic.'
   },
   {
-    name:'تكوين الضباب الدخاني الضوئي',
+    name:'Photochemical Smog Formation',
     eq:'NO₂ + hν → NO + O   |   O + O₂ → O₃   |   O₃ + VOC → Smog',
-    desc:'في المدن الكبرى، أشعة الشمس تُفكك ثاني أكسيد النيتروجين مُنتجةً أوزون أرضياً ومواد أكسدة تهيج الجهاز التنفسي وتسبب ضبابًا كيميائيًا ضاراً.'
+    desc:'In large cities, sunlight breaks down nitrogen dioxide, producing ground-level ozone and oxidants that irritate the respiratory system and form a harmful chemical haze.'
   },
 ];
 
 const quizData = [
-  { q:'ما هو الغاز الرئيسي المسبب للأمطار الحمضية؟', opts:['ثاني أكسيد الكبريت SO₂','ثاني أكسيد الكربون CO₂','الأوزون O₃','الميثان CH₄'], ans:0, exp:'SO₂ يتحد مع الماء في الجو مكوّنًا حامض الكبريتيك H₂SO₄ المسبب الرئيسي للأمطار الحمضية.' },
-  { q:'ما هي ظاهرة الإثراء الغذائي (Eutrophication)؟', opts:['تلوث الهواء بالدخان','تراكم المغذيات في المياه وانخفاض الأكسجين','ارتفاع درجة حرارة البحار','تراكم البلاستيك في المحيطات'], ans:1, exp:'الإثراء الغذائي يحدث بسبب زيادة النترات والفوسفات مما يسبب انتشار الطحالب واستنزاف الأكسجين.' },
-  { q:'أي درجة pH تمثل المحلول المحايد؟', opts:['0','14','7','5'], ans:2, exp:'المحلول المحايد له pH = 7، وهو توازن بين تركيز أيونات H⁺ و OH⁻.' },
-  { q:'لماذا تُعتبر المعادن الثقيلة خطيرة بيولوجيًا؟', opts:['لأنها قابلة للاشتعال','لأنها تتراكم في سلسلة الغذاء ولا تتحلل','لأنها تسبب الأمطار الحمضية','لأنها تُفسد طعم الماء'], ans:1, exp:'المعادن الثقيلة كالرصاص والزئبق تتضخم بيولوجياً في سلسلة الغذاء وتتراكم في أنسجة الكائنات مسببة أمراضاً خطيرة.' },
-  { q:'ما هو الدور الرئيسي لطبقة الأوزون؟', opts:['توليد المطر','امتصاص الأشعة فوق البنفسجية الضارة','تنقية الهواء من الغبار','تبريد الغلاف الجوي'], ans:1, exp:'الأوزون في الستراتوسفير يمتص 97-99% من الأشعة فوق البنفسجية الضارة التي تسبب سرطان الجلد والأضرار البيئية.' },
+  { q:'What is the primary gas responsible for acid rain?', opts:['Sulfur Dioxide SO₂','Carbon Dioxide CO₂','Ozone O₃','Methane CH₄'], ans:0, exp:'SO₂ combines with atmospheric water to form sulfuric acid (H₂SO₄), the main cause of acid rain.' },
+  { q:'What is Eutrophication?', opts:['Air pollution from smoke','Accumulation of nutrients in water causing oxygen depletion','Rising sea temperatures','Accumulation of plastic in oceans'], ans:1, exp:'Eutrophication occurs due to excess nitrates and phosphates, causing algal blooms and oxygen depletion.' },
+  { q:'Which pH value represents a neutral solution?', opts:['0','5','7','14'], ans:2, exp:'A neutral solution has a pH of 7, representing a balance between H⁺ and OH⁻ ion concentrations.' },
+  { q:'Why are heavy metals considered biologically hazardous?', opts:['Because they are flammable','Because they accumulate in food chains and do not degrade','Because they cause acid rain','Because they spoil the taste of water'], ans:1, exp:'Heavy metals like lead and mercury biomagnify through food chains and accumulate in tissues, causing serious diseases.' },
+  { q:'What is the primary role of the ozone layer?', opts:['Generating rainfall','Absorbing harmful ultraviolet radiation','Purifying air from dust','Cooling the atmosphere'], ans:1, exp:'Stratospheric ozone absorbs 97–99% of harmful UV radiation that causes skin cancer and environmental damage.' },
 ];
 
 // ========== POLLUTANTS ==========
@@ -630,11 +630,11 @@ function showPollutant(p){
     <h3>${p.emoji} ${p.name} <span style="font-size:13px;font-family:monospace;color:var(--cyan)">${p.formula}</span></h3>
     <p>${p.desc}</p>
     <div class="danger-bar">
-      <span class="danger-label">مستوى الخطورة:</span>
+      <span class="danger-label">Danger Level:</span>
       <div class="bar-track"><div class="bar-fill" style="width:0%;background:${col}" id="dangerFill"></div></div>
       <span style="font-size:14px;font-weight:700;color:${col}">${pct}%</span>
     </div>
-    <div class="source-tags"><span style="font-size:12px;color:#7ab">المصادر:</span>${tags}</div>
+    <div class="source-tags"><span style="font-size:12px;color:#7ab">Sources:</span>${tags}</div>
   `;
   setTimeout(()=>{ const f=document.getElementById('dangerFill'); if(f)f.style.width=pct+'%'; },50);
 }
@@ -657,13 +657,13 @@ function updatePH(){
   marker.style.left=(v/14*100)+'%';
 
   let col,status,life;
-  if(v<3){       col='#ff2200'; status='⚠️ حمضي شديد الخطورة – مميت للكائنات'; life='☠️ لا تعيش فيه كائنات'; }
-  else if(v<5){  col='#ff6600'; status='🌧️ حمضي – مطر حمضي ضار';       life='⚠️ يضر بمعظم الأسماك'; }
-  else if(v<6){  col='#ffaa00'; status='🍋 حمضي خفيف';                    life='⚡ يؤثر على بعض الكائنات'; }
-  else if(v<7.5){col='#00ff88'; status='✅ مثالي – آمن للحياة';           life='🐟 مثالي لمعظم الكائنات المائية'; }
-  else if(v<9){  col='#00ccff'; status='🌊 قلوي خفيف – مقبول';           life='✔️ مقبول لكثير من الكائنات'; }
-  else if(v<11){ col='#8888ff'; status='🧼 قلوي – مؤذٍ للكائنات';        life='⚠️ يضر بمعظم الأحياء'; }
-  else{          col='#ff44ff'; status='☣️ قلوي شديد – مدمر للخلايا';    life='☠️ مميت لجميع الكائنات'; }
+  if(v<3){       col='#ff2200'; status='⚠️ Extremely Acidic – Lethal to Organisms'; life='☠️ No organisms survive'; }
+  else if(v<5){  col='#ff6600'; status='🌧️ Acidic – Harmful Acid Rain';              life='⚠️ Harmful to most fish'; }
+  else if(v<6){  col='#ffaa00'; status='🍋 Mildly Acidic';                            life='⚡ Affects some organisms'; }
+  else if(v<7.5){col='#00ff88'; status='✅ Ideal – Safe for Life';                    life='🐟 Ideal for most aquatic life'; }
+  else if(v<9){  col='#00ccff'; status='🌊 Mildly Alkaline – Acceptable';            life='✔️ Acceptable for many organisms'; }
+  else if(v<11){ col='#8888ff'; status='🧼 Alkaline – Harmful to Organisms';         life='⚠️ Harmful to most life'; }
+  else{          col='#ff44ff'; status='☣️ Extremely Alkaline – Destroys Cells';     life='☠️ Lethal to all organisms'; }
 
   phNum.style.color=col;
   phStat.style.color=col;
@@ -709,7 +709,7 @@ const scoreEl=document.getElementById('scoreDisp');
 function loadQ(){
   if(qIdx>=quizData.length){ showFinal(); return; }
   const q=quizData[qIdx];
-  qEl.textContent=`السؤال ${qIdx+1} / ${quizData.length}: ${q.q}`;
+  qEl.textContent=`Question ${qIdx+1} / ${quizData.length}: ${q.q}`;
   oEl.innerHTML='';
   fbEl.className='quiz-feedback';
   fbEl.textContent='';
@@ -721,37 +721,37 @@ function loadQ(){
     btn.onclick=()=>checkAns(i,q,btn);
     oEl.appendChild(btn);
   });
-  scoreEl.textContent=`النقاط: ${score} / ${qIdx}`;
+  scoreEl.textContent=`Score: ${score} / ${qIdx}`;
 }
 
 function checkAns(i,q,btn){
   document.querySelectorAll('.quiz-opt').forEach(b=>b.onclick=null);
   if(i===q.ans){
     btn.classList.add('correct');
-    fbEl.textContent='✅ إجابة صحيحة! '+q.exp;
+    fbEl.textContent='✅ Correct! '+q.exp;
     fbEl.className='quiz-feedback show ok';
     score++;
   } else {
     btn.classList.add('wrong');
     document.querySelectorAll('.quiz-opt')[q.ans].classList.add('correct');
-    fbEl.textContent='❌ إجابة خاطئة. '+q.exp;
+    fbEl.textContent='❌ Incorrect. '+q.exp;
     fbEl.className='quiz-feedback show bad';
   }
   nxtBtn.classList.add('show');
-  scoreEl.textContent=`النقاط: ${score} / ${qIdx+1}`;
+  scoreEl.textContent=`Score: ${score} / ${qIdx+1}`;
 }
 
 function nextQ(){ qIdx++; loadQ(); }
 
 function showFinal(){
   const pct=Math.round(score/quizData.length*100);
-  const msg=pct>=80?'🏆 ممتاز! أنت خبير كيمياء بيئية':pct>=60?'👍 جيد! راجع بعض النقاط':'📚 تحتاج مزيداً من الدراسة';
-  qEl.textContent='انتهى الاختبار!';
+  const msg=pct>=80?'🏆 Excellent! You are an environmental chemistry expert':pct>=60?'👍 Good! Review a few points':'📚 You need more study';
+  qEl.textContent='Quiz Complete!';
   oEl.innerHTML='';
   fbEl.textContent='';
   fbEl.className='quiz-feedback';
   nxtBtn.classList.remove('show');
-  scoreEl.innerHTML=`${msg}<br>نتيجتك: <b>${score} / ${quizData.length}</b> (${pct}%)<br><br><button onclick="restartQ()" style="padding:8px 24px;background:var(--teal);border:none;border-radius:20px;color:#fff;font-family:Cairo,sans-serif;font-size:15px;cursor:pointer;margin-top:8px">إعادة الاختبار 🔄</button>`;
+  scoreEl.innerHTML=`${msg}<br>Your Score: <b>${score} / ${quizData.length}</b> (${pct}%)<br><br><button onclick="restartQ()" style="padding:8px 24px;background:var(--teal);border:none;border-radius:20px;color:#fff;font-family:Inter,sans-serif;font-size:15px;cursor:pointer;margin-top:8px">Restart Quiz 🔄</button>`;
 }
 
 function restartQ(){ qIdx=0; score=0; loadQ(); }
